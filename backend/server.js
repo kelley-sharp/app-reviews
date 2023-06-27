@@ -1,5 +1,8 @@
 const http = require("http");
-const { collectReviewsFromLast48Hours } = require("./helpers");
+const {
+  collectReviewsFromLast48Hours,
+  writeReviewsToFile,
+} = require("./helpers");
 
 const PORT = 3001;
 
@@ -12,10 +15,11 @@ http
       const appId = req.url.split("/")[2];
 
       try {
-        const result = await collectReviewsFromLast48Hours({ appId });
+        const reviews = await collectReviewsFromLast48Hours({ appId });
+        writeReviewsToFile({ reviews, appId });
         res.end(
           JSON.stringify({
-            data: result,
+            data: reviews,
           })
         );
       } catch (error) {

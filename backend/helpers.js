@@ -47,16 +47,19 @@ async function collectReviewsFromLast48Hours({ appId }) {
   return reviews;
 }
 
-function writeResultsToFile({ jsonData, appId }) {
-  // first check if file exists
-  // if file exists, check the most recent ID
-  // make sure the most recent ID doesn't exist in jsonData
-  fs.writeFileSync(
+function writeReviewsToFile({ reviews, appId }) {
+  fs.writeFile(
     `${__dirname}/data/reviews/${appId}.json`,
-    JSON.stringify(jsonData)
+    JSON.stringify(reviews),
+    (err) => {
+      if (err) {
+        console.log(`There was an error writing to file: ${err.message}`);
+      }
+    }
   );
 }
 
 module.exports = {
   collectReviewsFromLast48Hours,
+  writeReviewsToFile,
 };
