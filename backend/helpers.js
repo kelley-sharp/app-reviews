@@ -1,7 +1,11 @@
 const fetch = require("node-fetch");
 const fs = require("fs");
 
+/**
+ * Get a single page of reviews from the app store. Defaults to page 1.
+ */
 async function getReviewsPageForAppId({ appId, page = 1 }) {
+  // helper function to more cleanly flatten / map the entry content
   function mapEntryToReview(entry) {
     return {
       id: entry.id.label,
@@ -12,13 +16,16 @@ async function getReviewsPageForAppId({ appId, page = 1 }) {
     };
   }
 
-  return fetch(
+  const response = await fetch(
     `https://itunes.apple.com/us/rss/customerreviews/id=${appId}/sortBy=mostRecent/page=${page}/json`
-  )
-    .then((res) => res.json())
-    .then((data) => data.feed.entry.map(mapEntryToReview));
+  );
+  const responseJson = await response.json();
+  return responseJson.feed.entry.map(mapEntryToReview);
 }
 
+/**
+ * Given an app ID, return all of the reviews from the past 48 hours.
+ */
 async function collectReviewsFromLast48Hours({ appId }) {
   let reviews = [];
   const now = new Date();

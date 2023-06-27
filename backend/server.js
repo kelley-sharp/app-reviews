@@ -6,13 +6,7 @@ const {
   readReviewsFromFile,
 } = require("./helpers");
 
-const PORT = 3001;
-
-// Airbnb App - Change me if you want to generate files for different apps
-const DEFAULT_APP_ID = "401626263";
-
-// Poll Every Five Minutes! Change me if you want to see polling in action
-const POLLING_INTERVAL_MS = 1000 * 60 * 5;
+const { PORT, DEFAULT_APP_ID, POLLING_INTERVAL_MS } = require("./config");
 
 // create a server with a /reviews/:appId endpoint
 http
@@ -22,6 +16,7 @@ http
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET");
     res.setHeader("Access-Control-Max-Age", 2592000); // 30 days
+
     if (req.url.includes("/reviews")) {
       // e.g. `/reviews/12345`, extract the `12345` part
       const appId = req.url.split("/")[2];
