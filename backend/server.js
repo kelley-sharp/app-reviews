@@ -3,6 +3,7 @@ const {
   collectReviewsFromLast48Hours,
   writeReviewsToFile,
   pollForReviews,
+  readReviewsFromFile,
 } = require("./helpers");
 
 const PORT = 3001;
@@ -22,8 +23,7 @@ http
       const appId = req.url.split("/")[2];
 
       try {
-        const reviews = await collectReviewsFromLast48Hours({ appId });
-        writeReviewsToFile({ reviews, appId });
+        const reviews = readReviewsFromFile({ appId });
         res.end(
           JSON.stringify({
             data: reviews,

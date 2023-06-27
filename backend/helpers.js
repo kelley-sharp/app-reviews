@@ -47,6 +47,10 @@ async function collectReviewsFromLast48Hours({ appId }) {
   return reviews;
 }
 
+function readReviewsFromFile({ appId }) {
+  return JSON.parse(fs.readFileSync(`${__dirname}/data/reviews/${appId}.json`));
+}
+
 function writeReviewsToFile({ reviews, appId }) {
   fs.writeFile(
     `${__dirname}/data/reviews/${appId}.json`,
@@ -78,4 +82,5 @@ module.exports = {
   collectReviewsFromLast48Hours,
   writeReviewsToFile,
   pollForReviews,
+  readReviewsFromFile,
 };
