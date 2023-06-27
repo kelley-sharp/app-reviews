@@ -18,6 +18,10 @@ const POLLING_INTERVAL_MS = 1000 * 60 * 5;
 http
   .createServer(async function (req, res) {
     res.setHeader("Content-type", "application/json");
+    // enable CORS, credit https://stackoverflow.com/a/54309023/5920970
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET");
+    res.setHeader("Access-Control-Max-Age", 2592000); // 30 days
     if (req.url.includes("/reviews")) {
       // e.g. `/reviews/12345`, extract the `12345` part
       const appId = req.url.split("/")[2];
