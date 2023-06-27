@@ -1,5 +1,5 @@
 const http = require("http");
-const { getReviewsPageForAppId } = require("./helpers");
+const { collectReviewsFromLast48Hours } = require("./helpers");
 
 const PORT = 3001;
 
@@ -12,7 +12,7 @@ http
       const appId = req.url.split("/")[2];
 
       try {
-        const result = await getReviewsPageForAppId({ appId });
+        const result = await collectReviewsFromLast48Hours({ appId });
         res.end(
           JSON.stringify({
             data: result,
