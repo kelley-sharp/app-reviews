@@ -5,7 +5,7 @@
  */
 
 type Review = {
-  id: number; //id.label
+  id: string; //id.label
   content: string; //content.label
   author: string; //author.name.label
   score: number; //im:rating.label

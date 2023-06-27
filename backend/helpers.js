@@ -7,7 +7,7 @@ async function getReviewsPageForAppId({ appId, page = 1 }) {
       id: entry.id.label,
       content: entry.content.label,
       author: entry.author.name.label,
-      score: entry["im:rating"].label,
+      score: Number(entry["im:rating"].label),
       timeSubmitted: new Date(entry.updated.label),
     };
   }
@@ -59,7 +59,23 @@ function writeReviewsToFile({ reviews, appId }) {
   );
 }
 
+async function pollForReviews({ appId, pollingIntervalMs }) {
+  console.log(
+    `Started polling for reviews in last 48 hours for appId ${appId}`
+  );
+
+  const reviews = await collectReviewsFromLast48Hours({ appId });
+  writeReviewsToFile({ reviews, appId });
+
+  setInterval(async () => {
+    console.log(`Polling again for ${appId}.`);
+    const reviews = await collectReviewsFromLast48Hours({ appId });
+    writeReviewsToFile({ reviews, appId });
+  }, pollingIntervalMs);
+}
+
 module.exports = {
   collectReviewsFromLast48Hours,
   writeReviewsToFile,
+  pollForReviews,
 };
