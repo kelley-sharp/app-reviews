@@ -1,6 +1,6 @@
-# Runway Coding Challenge
+# App Reviews Coding Challenge
 
-This is a ~3-hour coding challenge that fetches the past 48 hours of RSS reviews from an app in the app store.
+This is a coding challenge that fetches the past 48 hours of RSS reviews from an app in the app store.
 
 ## How It Works
 
