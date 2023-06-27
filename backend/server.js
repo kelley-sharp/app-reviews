@@ -1,5 +1,5 @@
 const http = require("http");
-const { getRssFeedData } = require("./helpers");
+const { getReviewsPageForAppId } = require("./helpers");
 
 const PORT = 3001;
 
@@ -8,11 +8,11 @@ http
   .createServer(async function (req, res) {
     res.setHeader("Content-type", "application/json");
     if (req.url.includes("/reviews")) {
-      // e.g. `/reviews/12345
-      const appId = req.url.split("/")[1];
+      // e.g. `/reviews/12345`, extract the `12345` part
+      const appId = req.url.split("/")[2];
 
       try {
-        const result = await getRssFeedData({ appId });
+        const result = await getReviewsPageForAppId({ appId });
         res.end(
           JSON.stringify({
             data: result,
@@ -23,7 +23,8 @@ http
           JSON.stringify({
             error: {
               status: 500,
-              message: "Internal Server Error",
+              title: "Internal Server Error",
+              message: error.message,
             },
           })
         );
